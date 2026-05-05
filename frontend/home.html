@@ -4,20 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home — VideoDemo</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, sans-serif; background: #f4f5f7; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-    .card { background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.1); width: 100%; max-width: 400px; text-align: center; }
-    h1 { margin-bottom: 1.5rem; font-size: 1.5rem; }
-    button { padding: .625rem 1.5rem; background: #4f46e5; color: #fff; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; }
-    button:hover { background: #4338ca; }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="card">
-    <h1 id="greeting">Loading…</h1>
+  <div class="card" style="text-align:center;">
+    <div class="logo">
+      <svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="36" height="36" rx="8" fill="url(#lg)"/>
+        <path d="M14 11v14l12-7-12-7z" fill="#fff"/>
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="36" y2="36"><stop stop-color="#4f46e5"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+      </svg>
+      <span class="logo-text">VideoDemo</span>
+    </div>
+    <h1><span class="typewriter" id="greeting"></span></h1>
     <button id="logout-btn">Log out</button>
   </div>
+  <div class="footer">VideoDemo &copy; 2026</div>
   <script>
     const greetingEl = document.getElementById('greeting');
     const logoutBtn = document.getElementById('logout-btn');
@@ -25,6 +27,21 @@
     function logout() {
       sessionStorage.clear();
       window.location.href = 'login.html';
+    }
+
+    function typewrite(el, text, speed) {
+      let i = 0;
+      el.textContent = '';
+      function tick() {
+        if (i < text.length) {
+          el.textContent += text.charAt(i);
+          i++;
+          setTimeout(tick, speed);
+        } else {
+          el.classList.add('done');
+        }
+      }
+      tick();
     }
 
     async function init() {
@@ -39,7 +56,7 @@
         if (!res.ok) { logout(); return; }
 
         const data = await res.json();
-        greetingEl.textContent = 'Welcome, ' + data.username + '!';
+        typewrite(greetingEl, 'Welcome, ' + data.username + '!', 50);
       } catch {
         logout();
       }
