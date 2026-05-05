@@ -6,16 +6,28 @@
   <title>Login — VideoDemo</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <div class="card">
-    <div class="logo">
+<body class="has-nav">
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+  <nav class="navbar" aria-label="Main navigation">
+    <a href="home.html" class="logo" aria-label="VideoDemo home">
       <svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="36" height="36" rx="8" fill="url(#lg)"/>
         <path d="M14 11v14l12-7-12-7z" fill="#fff"/>
         <defs><linearGradient id="lg" x1="0" y1="0" x2="36" y2="36"><stop stop-color="#4f46e5"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
       </svg>
       <span class="logo-text">VideoDemo</span>
-    </div>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links" id="nav-links" role="menubar">
+      <li role="none"><a role="menuitem" href="home.html">Home</a></li>
+      <li role="none"><a role="menuitem" href="#browse">Browse</a></li>
+      <li role="none"><a role="menuitem" href="#about">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="card">
     <h1>Sign In</h1>
     <div class="error" id="error"></div>
     <form id="login-form">
@@ -27,7 +39,21 @@
     </form>
   </div>
   <div class="footer">VideoDemo &copy; 2026</div>
+
   <script>
+    /* --- Mobile nav toggle --- */
+    (function() {
+      const toggle = document.getElementById('nav-toggle');
+      const links = document.getElementById('nav-links');
+      const overlay = document.getElementById('nav-overlay');
+      function open()  { links.classList.add('open'); overlay.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); toggle.setAttribute('aria-label', 'Close menu'); }
+      function close() { links.classList.remove('open'); overlay.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); toggle.setAttribute('aria-label', 'Open menu'); }
+      toggle.addEventListener('click', () => links.classList.contains('open') ? close() : open());
+      overlay.addEventListener('click', close);
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    })();
+
+    /* --- Login form --- */
     const form = document.getElementById('login-form');
     const errorEl = document.getElementById('error');
     const submitBtn = document.getElementById('submit-btn');

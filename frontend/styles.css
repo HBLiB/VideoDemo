@@ -234,3 +234,127 @@ button.success::after {
   .card { margin: 1rem; padding: 2rem 1.5rem 1.5rem; }
   h1 { font-size: 1.3rem; }
 }
+
+/* --- Navbar --- */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem 1.5rem;
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--card-border);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, .25);
+  opacity: 0;
+  animation: navEnter .5s ease forwards;
+}
+@keyframes navEnter {
+  from { opacity: 0; transform: translateY(-100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.navbar .logo {
+  margin-bottom: 0;
+  gap: .4rem;
+}
+.navbar .logo-icon { width: 28px; height: 28px; }
+.navbar .logo-text { font-size: 1.1rem; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+  list-style: none;
+}
+
+.nav-links a {
+  display: inline-block;
+  padding: .45rem .9rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: .875rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: color var(--transition), background var(--transition);
+}
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--text);
+  background: rgba(255,255,255,.08);
+}
+.nav-links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Hamburger button */
+.nav-toggle {
+  display: none;
+  width: auto;
+  background: none;
+  border: none;
+  padding: .4rem;
+  cursor: pointer;
+  color: var(--text);
+  border-radius: 6px;
+  transition: background var(--transition);
+}
+.nav-toggle:hover { background: rgba(255,255,255,.08); }
+.nav-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.nav-toggle svg { display: block; }
+
+/* Body offset for fixed nav */
+body.has-nav { padding-top: 4rem; }
+
+/* --- Mobile nav --- */
+@media (max-width: 640px) {
+  .nav-toggle { display: block; }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 260px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 4.5rem 1rem 1rem;
+    background: rgba(15, 12, 41, .95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-left: 1px solid var(--card-border);
+    box-shadow: -8px 0 32px rgba(0,0,0,.4);
+    transform: translateX(100%);
+    transition: transform .3s cubic-bezier(.22,1,.36,1);
+  }
+  .nav-links.open {
+    transform: translateX(0);
+  }
+
+  .nav-links a {
+    padding: .75rem 1rem;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background: rgba(0,0,0,.5);
+  }
+  .nav-overlay.open {
+    display: block;
+  }
+}
